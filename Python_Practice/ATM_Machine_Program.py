@@ -17,6 +17,9 @@
 # # - Insert money into ATM (No database is needed for this it can be managed using dicts)
 # # Hint: You can manage all this with data dictionary data type.
 
+
+
+
 class Banks:
 
     def __init__(self, BankName, ATMBalance,
@@ -204,67 +207,137 @@ while True:
     if user == 1:
 
         print("\nAdmin Menu")
+
         print("\n 1 For Show All User : ")
         print("\n 2 For Show All Banks : ")
         print("\n 3 For Add User : ")
         print("\n 4 For Remove User : ")
         print("\n 5 For Add Banks : ")
         print("\n 6 For Remove Banks : ")
-        Admin_Choice=int(input())
 
-        if Admin_Choice==1:
-            for i in range(0,len(All_User)):
-                print(All_User[i].User_Detail())
+        try:
+            Admin_Choice = int(input("Enter Admin Choice : "))
+        except ValueError:
+            print("Please Enter Valid Choice")
+            continue
 
-        elif Admin_Choice==2:
-            for i in range(0,len(All_Banks)):
-                print(All_Banks[i].Bank_Detail())
+        if Admin_Choice == 1:
 
-        elif Admin_Choice==3:
-            print("**********************")
-            New_UserName=input("Enter New User Name : ")
-            New_UserBankName=input("Enter New User Bank Name : ")
-            New_UserBankBalance=int(input("Enter New User Bank  Balance : "))
-            New_UserCardNumber=int(input("Enter New User Card Number : "))
-            New_UserPINNumber=int(input("Enter New User PIN Number : "))
-            All_User.append(User(New_UserName, New_UserBankName, New_UserBankBalance, 0, New_UserCardNumber, New_UserPINNumber, 0))
-            print("**********************")
+            for i in range(0, len(All_User)):
+                All_User[i].User_Detail()
 
-        elif Admin_Choice==4:
+        elif Admin_Choice == 2:
+
+            for i in range(0, len(All_Banks)):
+                All_Banks[i].Bank_Detail()
+
+        elif Admin_Choice == 3:
+
+            print("***************************")
+
+            New_UserName = input("Enter New User Name : ")
+            New_UserBankName = input("Enter New User Bank Name : ")
+
+            New_UserBankBalance = int(input("Enter New User Bank Balance : "))
+            New_UserCardNumber = int(input("Enter New User Card Number : "))
+            New_UserPINNumber = int(input("Enter New User PIN Number : "))
+
+            All_User.append(User(
+                New_UserName,
+                New_UserBankName,
+                New_UserBankBalance,
+                0,
+                New_UserCardNumber,
+                New_UserPINNumber,
+                0
+            ))
+
+            print("User Added Successfully")
+            print("***************************")
+
+        elif Admin_Choice == 4:
+
             print("Remove User : ")
 
-            for i in range(0,len(All_User),1):
+            if len(All_User) == 0:
+                print("No Users Available")
+                continue
+
+            for i in range(0, len(All_User), 1):
                 print(f"User Name : {All_User[i].UserName} index : {i}")
 
+            try:
+                User_delete_Index_Number = int(
+                    input("Enter Index Number To Delete User : ")
+                )
+            except ValueError:
+                print("Please Enter Valid Index Number")
+                continue
 
-            print("Enter Index Number To Delete User : ")
-            User_delete_Index_Number=int(input())
+            # Correct Remove User Logic
 
-            All_User.pop(User_delete_Index_Number)
+            if 0 <= User_delete_Index_Number < len(All_User):
 
-            
-             
-        elif Admin_Choice==5:
-            print("*****************************")
-            New_BankName=input("Enter New Bank Name : ")
-            New_ATMBalance=int(input("Enter New ATM Balance : "))
-            New_NumberOfTransactionLimit=int(input("Enter Transaction Limit : "))
-            New_OneDayLimit=int(input("Enter One Day Limit : "))
-            New_PerTransactionLimit=int(input("Enter Per Transaction Limit : "))
-            All_Banks.append(Banks(New_BankName,New_ATMBalance, New_NumberOfTransactionLimit, New_OneDayLimit, New_PerTransactionLimit))
-            print("*****************************")
+                Deleted_User = All_User.pop(User_delete_Index_Number)
 
-        elif Admin_Choice==6:
+                print("User Removed Successfully :", Deleted_User.UserName)
+
+            else:
+                print("Invalid User Index Number")
+
+        elif Admin_Choice == 5:
+
+            print("***************************")
+
+            New_BankName = input("Enter New Bank Name : ")
+            New_ATMBalance = int(input("Enter New ATM Balance : "))
+            New_NumberOfTransactionLimit = int(input("Enter Transaction Limit : "))
+            New_OneDayLimit = int(input("Enter One Day Limit : "))
+            New_PerTransactionLimit = int(input("Enter Per Transaction Limit : "))
+
+            All_Banks.append(Banks(
+                New_BankName,
+                New_ATMBalance,
+                New_NumberOfTransactionLimit,
+                New_OneDayLimit,
+                New_PerTransactionLimit
+            ))
+
+            print("Bank Added Successfully")
+            print("***************************")
+
+        elif Admin_Choice == 6:
+
             print("Remove Banks : ")
 
-            for i in range(0,len(All_Banks),1):
-                print(f"User Name : {All_Banks[i].BankName} index : {i}")
+            if len(All_Banks) == 0:
+                print("No Banks Available")
+                continue
 
+            for i in range(0, len(All_Banks), 1):
+                print(f"Bank Name : {All_Banks[i].BankName} index : {i}")
 
-            print("Enter Index Number To Delete Bank : ")
-            Bank_delete_Index_Number=int(input())
+            try:
+                Bank_delete_Index_Number = int(
+                    input("Enter Index Number To Delete Bank : ")
+                )
+            except ValueError:
+                print("Please Enter Valid Index Number")
+                continue
 
-            All_User.pop(Bank_delete_Index_Number)
+            # Correct Remove Bank Logic
+
+            if 0 <= Bank_delete_Index_Number < len(All_Banks):
+
+                Deleted_Bank = All_Banks.pop(Bank_delete_Index_Number)
+
+                print("Bank Removed Successfully :", Deleted_Bank.BankName)
+
+            else:
+                print("Invalid Bank Index Number")
+
+        else:
+            print("Invalid Admin Choice")
 
     # ----------------------------------
     # User Option
@@ -449,6 +522,3 @@ while True:
     else:
 
         print("Invalid Choice")
-
-
-    
